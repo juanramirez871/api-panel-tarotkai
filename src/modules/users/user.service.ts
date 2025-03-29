@@ -8,7 +8,11 @@ export class UserService {
     @InjectModel(User) private userModel: typeof User,
   ) {}
 
-  async findByUsername(email: string): Promise<User | null> {
-    return this.userModel.findOne({ where: { email } });
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userModel.findOne(
+      {
+        attributes: ["password", "email"],
+        where: { email }
+      });
   }
 }

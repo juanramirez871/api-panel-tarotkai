@@ -11,7 +11,7 @@ export class AuthService {
   ) {}
 
   async login(email: string, password: string) {
-    const user = await this.userService.findByUsername(email);
+    const user = (await this.userService.findByEmail(email))?.get({ plain: true });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Credenciales incorrectas');
     }
@@ -19,6 +19,7 @@ export class AuthService {
     const payload = { email: user.email, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
+      email
     };
   }
 
