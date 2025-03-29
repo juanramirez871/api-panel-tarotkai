@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-// Exportar configuración de Sequelize en CommonJS para que funcione con Sequelize CLI
 module.exports = {
   development: {
     username: process.env.DB_USERNAME || 'root',
@@ -8,6 +7,7 @@ module.exports = {
     database: process.env.DB_NAME || 'test_db',
     host: process.env.DB_HOST || '127.0.0.1',
     dialect: process.env.DB_DIALECT || 'mysql',
+    migrationStoragePath: 'src/database/migrations',
   },
   test: {
     username: process.env.DB_USERNAME || 'root',
@@ -15,6 +15,7 @@ module.exports = {
     database: process.env.DB_NAME || 'test_db',
     host: process.env.DB_HOST || '127.0.0.1',
     dialect: process.env.DB_DIALECT || 'mysql',
+    migrationStoragePath: 'src/database/migrations',
   },
   production: {
     username: process.env.DB_USERNAME || 'root',
@@ -22,5 +23,6 @@ module.exports = {
     database: process.env.DB_NAME || 'test_db',
     host: process.env.DB_HOST || '127.0.0.1',
     dialect: process.env.DB_DIALECT || 'mysql',
+    migrationStoragePath: 'src/database/migrations',
   }
 };

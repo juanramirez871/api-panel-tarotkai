@@ -20,6 +20,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "config/**/*.js"
-, "models/user.model.ts"  ]
+    "config/**/*.js",
+    "src/database/migrations/**/*.ts",
+    "src/database/models/*.ts"
+  ]
 }
