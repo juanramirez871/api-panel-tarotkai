@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { loginSchema } from './auth.schema';
 import { ValidationGuard } from 'src/guards/validation.guard';
+import { ApiResponse } from "../../utils/apiResponse"
 
 @Controller('auth')
 export class AuthController {
@@ -10,8 +11,15 @@ export class AuthController {
 
   @Post('login')
   @UseGuards(new ValidationGuard(loginSchema))
-  async login(@Body('email') email: string, @Body('password') password: string) {
-    return this.authService.login(email, password);
+  async login(@Body('email') email: string, @Body('password') password: string)
+  {
+    try {
+      const data = this.authService.login(email, password);
+      return ApiResponse.success('Inicio de sesion exitoso', data);
+    }
+    catch(error) {
+      return ApiResponse.error(error);
+    }
   }
 
   @Post('logout')
