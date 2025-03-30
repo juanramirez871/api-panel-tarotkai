@@ -14,7 +14,7 @@ export class AuthController {
   async login(@Body('email') email: string, @Body('password') password: string)
   {
     try {
-      const data = this.authService.login(email, password);
+      const data = await this.authService.login(email, password);
       return ApiResponse.success('Inicio de sesion exitoso', data);
     }
     catch(error) {
@@ -25,6 +25,6 @@ export class AuthController {
   @Post('logout')
   @UseGuards(JwtAuthGuard)
   async logout(@Req() req: any) {
-    return { message: 'Logout exitoso' };
+    return { message: 'Cierre de sesion exitoso' };
   }
 }

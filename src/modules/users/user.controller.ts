@@ -14,7 +14,7 @@ export class UserController {
   {
     try {
       const userData = req.user;
-      const data = this.userService.getUserById(userData.id);
+      const data = await this.userService.findByEmail(userData.email);
       return ApiResponse.success('Consultado correctamente', data);
     }
     catch(error) {

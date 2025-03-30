@@ -10,6 +10,7 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization',
     preflightContinue: false,
     optionsSuccessStatus: 204,
+    Credential: true
   });
 
   app.useGlobalFilters(new UnauthorizedExceptionFilter());
