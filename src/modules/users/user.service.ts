@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from '../../database/models/user.model';
+const bcrypt = require('bcryptjs'); 
 
 @Injectable()
 export class UserService {
@@ -22,5 +23,18 @@ export class UserService {
 
   async getAllUsers(): Promise<User[] | null> {
     return this.userModel.findAll()
+  }
+
+  async createUser(body) {
+    const saltRounds = 8;
+    const hashedPassword = bcrypt.hashSync(body.password, saltRounds);
+    const user = await this.userModel.create({
+      name: body.name,
+      email: body.email,
+      role_id: body.rolId,
+      password: hashedPassword,
+      extension: body.extent
+    })
+    return user
   }
 }
