@@ -8,13 +8,26 @@ import { RequestWithUser } from '../auth/auth.interfaces';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('/')
+  @Get('/current')
   @UseGuards(JwtAuthGuard)
-  async getUser(@Req() req: RequestWithUser)
+  async getUserLogueado(@Req() req: RequestWithUser)
   {
     try {
       const userData = req.user;
       const data = await this.userService.findByEmail(userData.email);
+      return ApiResponse.success('Consultado correctamente', data);
+    }
+    catch(error) {
+      return ApiResponse.error(error);
+    }
+  }
+
+  @Get('/all')
+  @UseGuards(JwtAuthGuard)
+  async getAllUsers()
+  {
+    try {
+      const data = await this.userService.getAllUsers();
       return ApiResponse.success('Consultado correctamente', data);
     }
     catch(error) {

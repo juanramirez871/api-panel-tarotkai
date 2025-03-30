@@ -11,12 +11,16 @@ export class UserService {
   async findByEmail(email: string): Promise<User | null> {
     return this.userModel.findOne(
       {
-        attributes: ["password", "email", "name"],
+        attributes: ["password", "email", "name", "extension"],
         where: { email }
       });
   }
 
   async getUserById(id: number): Promise<User | null> {
     return this.userModel.findByPk(id)
+  }
+
+  async getAllUsers(): Promise<User[] | null> {
+    return this.userModel.findAll()
   }
 }

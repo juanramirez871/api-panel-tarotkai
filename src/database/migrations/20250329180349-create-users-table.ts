@@ -17,6 +17,11 @@ export async function up(queryInterface: QueryInterface) {
       allowNull: false,
       unique: true,
     },
+    extension: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -25,7 +30,7 @@ export async function up(queryInterface: QueryInterface) {
     role_id: {
       type: DataTypes.BIGINT.UNSIGNED,
       allowNull: false,
-      unique: true,
+      unique: false,
     },
     createdAt: {
       type: DataTypes.DATE,

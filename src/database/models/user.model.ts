@@ -21,12 +21,20 @@ export class User extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    unique: true,
+  })
+  extension: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
   })
   password: string;
 
   @Column({
     type: DataType.INTEGER.UNSIGNED,
     allowNull: false,
+    unique: false
   })
   role_id: number;
 }
