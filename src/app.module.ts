@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/users/user.module';
 import { Role } from './database/models/roles.model';
+import { RoleModule } from './modules/roles/role.module';
 dotenv.config();
 
 @Module({
@@ -21,7 +22,8 @@ dotenv.config();
       synchronize: true,
     }),
     AuthModule,
-    UserModule
+    UserModule,
+    RoleModule
   ],
 })
 export class AppModule { }
