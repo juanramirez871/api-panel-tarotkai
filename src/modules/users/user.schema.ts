@@ -6,8 +6,8 @@ export const createUser = z.object({
     .nonempty('El nombre es obligatorio')
     .regex(/^[a-zA-Z\s]+$/, 'El nombre solo puede contener letras y espacios'),
   rolId: z
-    .string()
-    .nonempty('El rol es obligatorio'),
+    .number({ message: "El rol es obligatorio" })
+    .min(1, "El rol es obligatorio"),
   extent: z
     .string()
     .nonempty('La extensión es obligatoria')

@@ -8,31 +8,29 @@ import { createUser } from './user.schema';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Get('/current')
   @UseGuards(JwtAuthGuard)
-  async getUserLogueado(@Req() req: RequestWithUser)
-  {
+  async getUserLogueado(@Req() req: RequestWithUser) {
     try {
       const userData = req.user;
       const data = await this.userService.findByEmail(userData.email);
       return ApiResponse.success('Consultado correctamente', data);
     }
-    catch(error) {
+    catch (error) {
       return ApiResponse.error(error);
     }
   }
 
   @Get('/all')
   @UseGuards(JwtAuthGuard)
-  async getAllUsers()
-  {
+  async getAllUsers() {
     try {
       const data = await this.userService.getAllUsers();
       return ApiResponse.success('Consultado correctamente', data);
     }
-    catch(error) {
+    catch (error) {
       return ApiResponse.error(error);
     }
   }
@@ -40,13 +38,12 @@ export class UserController {
   @Post('/')
   @UseGuards(JwtAuthGuard)
   @UseGuards(new ValidationGuard(createUser))
-  async createUser(@Req() req: RequestWithUser)
-  {
+  async createUser(@Req() req: RequestWithUser) {
     try {
       const data = await this.userService.createUser(req.body);
       return ApiResponse.success('Guardado correctamente', data);
     }
-    catch(error) {
+    catch (error) {
       return ApiResponse.error(error);
     }
   }
