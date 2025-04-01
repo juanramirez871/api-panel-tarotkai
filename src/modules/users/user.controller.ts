@@ -1,10 +1,10 @@
-import { Controller, Post, Body, Req, UseGuards, Get, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Get, Delete, Put } from '@nestjs/common';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { ApiResponse } from "../../utils/apiResponse"
 import { UserService } from './user.service';
 import { RequestWithUser } from '../auth/auth.interfaces';
 import { ValidationGuard } from 'src/guards/validation.guard';
-import { createUser } from './user.schema';
+import { createUser, editUser } from './user.schema';
 
 @Controller('user')
 export class UserController {
@@ -35,12 +35,37 @@ export class UserController {
     }
   }
 
+  @Get('/:id')
+  @UseGuards(JwtAuthGuard)
+  async getUser(@Req() req: any) {
+    try {
+      const data = await this.userService.getUserById(req.params.id);
+      return ApiResponse.success('Consultado correctamente', data);
+    }
+    catch (error) {
+      return ApiResponse.error(error);
+    }
+  }
+
   @Delete('/:id')
   @UseGuards(JwtAuthGuard)
   async deleteUser(@Req() req: any) {
     try {
       const data = await this.userService.deleteUser(req.params.id);
       return ApiResponse.success('Eliminado correctamente', data);
+    }
+    catch (error) {
+      return ApiResponse.error(error);
+    }
+  }
+
+  @Put('/:id')
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(new ValidationGuard(editUser))
+  async editUser(@Req() req: any) {
+    try {
+      const data = await this.userService.editUser(req.body, req.params.id);
+      return ApiResponse.success('Editado correctamente', data);
     }
     catch (error) {
       return ApiResponse.error(error);

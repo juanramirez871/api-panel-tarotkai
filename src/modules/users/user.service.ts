@@ -97,6 +97,44 @@ export class UserService {
     return await this.getUserWithRolByEmail(body.email)
   }
 
+  async editUser(body, id: number): Promise<User | null> {
+
+    const user = (await this.getUserById(id))?.get({ plain: true })
+    if (!user) throw new Error("El usuario no existe")
+
+    if (user.email != body.email) {
+      const existEmail = await this.findByEmail(body.email)
+      if (existEmail) throw new Error("El correo ya esta en uso")
+    }
+
+    if (user.extension != body.extent) {
+      const existExtent = await this.findByExtent(body.extent)
+      if (existExtent) throw new Error("La extensión ya esta en uso")
+    }
+
+    if (body.password) {
+      const saltRounds = 8;
+      body.password = bcrypt.hashSync(body.password, saltRounds);
+    }
+
+    await this.userModel.update(
+      {
+        name: body.name,
+        email: body.email,
+        role_id: body.rolId,
+        password: body.password ?? user.password,
+        extension: body.extent
+      },
+      {
+        where: {
+          id
+        },
+      }
+    );
+
+    return await this.getUserWithRolByEmail(body.email)
+  }
+
   async deleteUser(id: number): Promise<number> {
 
     const existUser = await this.getUserById(id)
