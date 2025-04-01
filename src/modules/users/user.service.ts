@@ -39,6 +39,7 @@ export class UserService {
         [col("role.id"), "idRole"],
         [col("role.name"), "roleName"],
         "name",
+        "email",
         "extension",
         "createdAt"
       ],
@@ -60,6 +61,7 @@ export class UserService {
         [col("role.id"), "idRole"],
         [col("role.name"), "roleName"],
         "name",
+        "email",
         "extension",
         "createdAt"
       ],

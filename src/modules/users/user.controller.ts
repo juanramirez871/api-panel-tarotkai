@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards, Get, Delete, Put } from '@nestjs/common';
+import { Controller, Post, Req, UseGuards, Get, Delete, Put } from '@nestjs/common';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { ApiResponse } from "../../utils/apiResponse"
 import { UserService } from './user.service';
@@ -37,7 +37,7 @@ export class UserController {
 
   @Get('/:id')
   @UseGuards(JwtAuthGuard)
-  async getUser(@Req() req: any) {
+  async getUser(@Req() req: RequestWithUser) {
     try {
       const data = await this.userService.getUserById(req.params.id);
       return ApiResponse.success('Consultado correctamente', data);
@@ -49,7 +49,7 @@ export class UserController {
 
   @Delete('/:id')
   @UseGuards(JwtAuthGuard)
-  async deleteUser(@Req() req: any) {
+  async deleteUser(@Req() req: RequestWithUser) {
     try {
       const data = await this.userService.deleteUser(req.params.id);
       return ApiResponse.success('Eliminado correctamente', data);
@@ -62,7 +62,7 @@ export class UserController {
   @Put('/:id')
   @UseGuards(JwtAuthGuard)
   @UseGuards(new ValidationGuard(editUser))
-  async editUser(@Req() req: any) {
+  async editUser(@Req() req: RequestWithUser) {
     try {
       const data = await this.userService.editUser(req.body, req.params.id);
       return ApiResponse.success('Editado correctamente', data);
