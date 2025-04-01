@@ -1,4 +1,12 @@
-import { Column, Model, Table, DataType } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  ForeignKey,
+  BelongsTo
+} from 'sequelize-typescript';
+import { Role } from './roles.model';
 
 @Table({
   tableName: 'users',
@@ -31,10 +39,13 @@ export class User extends Model {
   })
   password: string;
 
+  @ForeignKey(() => Role)
   @Column({
     type: DataType.INTEGER.UNSIGNED,
     allowNull: false,
-    unique: false
   })
   role_id: number;
+
+  @BelongsTo(() => Role)
+  role: Role;
 }

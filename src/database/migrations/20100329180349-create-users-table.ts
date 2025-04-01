@@ -3,7 +3,7 @@ import { QueryInterface, DataTypes } from 'sequelize';
 export async function up(queryInterface: QueryInterface) {
   await queryInterface.createTable('users', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
@@ -28,9 +28,12 @@ export async function up(queryInterface: QueryInterface) {
       unique: false,
     },
     role_id: {
-      type: DataTypes.BIGINT.UNSIGNED,
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      unique: false,
+      references: {
+        model: 'roles',
+        key: 'id',
+      },
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -41,8 +44,14 @@ export async function up(queryInterface: QueryInterface) {
       allowNull: false,
     },
   });
+
+  await queryInterface.addIndex('users', ['email'], {
+    unique: true,
+    name: 'users_email_unique_index',
+  });
 }
 
 export async function down(queryInterface: QueryInterface) {
-  await queryInterface.dropTable('Users');
+  await queryInterface.removeIndex('users', 'users_email_unique_index');
+  await queryInterface.dropTable('users');
 }

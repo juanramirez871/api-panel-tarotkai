@@ -4,6 +4,7 @@ import { User } from './database/models/user.model';
 import * as dotenv from 'dotenv';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/users/user.module';
+import { Role } from './database/models/roles.model';
 dotenv.config();
 
 @Module({
@@ -15,7 +16,7 @@ dotenv.config();
       username: process.env.DB_USERNAME || 'root',
       password: process.env.DB_PASSWORD || '123',
       database: process.env.DB_NAME || 'db_name',
-      models: [User],
+      models: [User, Role],
       autoLoadModels: true,
       synchronize: true,
     }),
@@ -23,4 +24,4 @@ dotenv.config();
     UserModule
   ],
 })
-export class AppModule {}
+export class AppModule { }
