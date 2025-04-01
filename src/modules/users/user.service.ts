@@ -97,4 +97,18 @@ export class UserService {
     return await this.getUserWithRolByEmail(body.email)
   }
 
+  async deleteUser(id: number): Promise<number> {
+
+    const existUser = await this.getUserById(id)
+    if (!existUser) throw new Error("Usuario no existe")
+
+    const user = await User.destroy({
+      where: {
+        id
+      },
+    });
+
+    return user
+  }
+
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards, Get } from '@nestjs/common';
+import { Controller, Post, Body, Req, UseGuards, Get, Delete } from '@nestjs/common';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { ApiResponse } from "../../utils/apiResponse"
 import { UserService } from './user.service';
@@ -29,6 +29,18 @@ export class UserController {
     try {
       const data = await this.userService.getAllUsers();
       return ApiResponse.success('Consultado correctamente', data);
+    }
+    catch (error) {
+      return ApiResponse.error(error);
+    }
+  }
+
+  @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
+  async deleteUser(@Req() req: any) {
+    try {
+      const data = await this.userService.deleteUser(req.params.id);
+      return ApiResponse.success('Eliminado correctamente', data);
     }
     catch (error) {
       return ApiResponse.error(error);
