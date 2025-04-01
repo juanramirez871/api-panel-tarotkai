@@ -1,18 +1,18 @@
 import { Controller, UseGuards, Get } from '@nestjs/common';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { ApiResponse } from "../../utils/apiResponse"
-import { RoleService } from './role.service';
+import { PermissionService } from './permissions.service';
 
-@Controller('role')
-export class RoleController {
-  constructor(private readonly roleService: RoleService) { }
+@Controller('permission')
+export class PermissionController {
+  constructor(private readonly permissionService: PermissionService) { }
 
 
-  @Get('/all')
+  @Get('/roles')
   @UseGuards(JwtAuthGuard)
-  async getAllUsers() {
+  async getAllRoles() {
     try {
-      const data = await this.roleService.getAllRoles();
+      const data = await this.permissionService.getAllRoles();
       return ApiResponse.success('Consultado correctamente', data);
     }
     catch (error) {
