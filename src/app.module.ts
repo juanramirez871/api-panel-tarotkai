@@ -5,7 +5,10 @@ import * as dotenv from 'dotenv';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/users/user.module';
 import { Role } from './database/models/roles.model';
+import { Module as ModuleModel } from './database/models/modules.model';
 import { PermissionModule } from './modules/permissions/permissions.module';
+import { Privilege } from './database/models/privileges.model';
+import { privilegeRole } from './database/models/privileges-roles.model';
 dotenv.config();
 
 @Module({
@@ -17,7 +20,13 @@ dotenv.config();
       username: process.env.DB_USERNAME || 'root',
       password: process.env.DB_PASSWORD || '123',
       database: process.env.DB_NAME || 'db_name',
-      models: [User, Role],
+      models: [
+        User,
+        Role,
+        ModuleModel,
+        Privilege,
+        privilegeRole
+      ],
       autoLoadModels: true,
       synchronize: true,
     }),

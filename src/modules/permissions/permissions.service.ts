@@ -17,6 +17,10 @@ export class PermissionService {
   }
 
   async createRole(body): Promise<Role | null> {
+
+    const existName = await this.roleModel.findOne({ where: { name: body.name } })
+    if (existName) throw new Error("El nombre del rol ya esta en uso")
+
     return Role.create(body)
   }
 
