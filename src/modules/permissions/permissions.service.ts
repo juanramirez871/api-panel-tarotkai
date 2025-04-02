@@ -25,20 +25,19 @@ export class PermissionService {
   async getAllModulesWithPrivileges(idRole: number) {
     const modulesWithSubmodules: any = {};
     const modules = await this.moduleModel.findAll();
-  
-    for (const el of modules)
-    {
+
+    for (const el of modules) {
       const module = el.get({ plain: true });
       const privileges = await this.privilegeModel.findAll({
         attributes: [['id', 'idPrivilege'], 'name'],
         where: { module_id: module.id }
       });
-  
+
       const privilegesUserModule = await this.privilegeRoleModel.findAll({
         attributes: ['privilege_id', 'role_id', 'id'],
         where: { role_id: idRole }
       });
-  
+
       const privilegesWithCheck = privileges.map(privilege => {
         const privilegePlain = privilege.get({ plain: true });
 
@@ -47,22 +46,20 @@ export class PermissionService {
           check: privilegesUserModule.some(privileUser => privileUser.dataValues.privilege_id === privilegePlain.idPrivilege)
         };
       });
-  
-      if (module.name.includes('_'))
-      {
+
+      if (module.name.includes('_')) {
         const nameModule = module.name.split('_')[0];
         const nameSubModule = module.name.split('_').slice(1).join('_');
-  
+
         if (!modulesWithSubmodules[nameModule]) modulesWithSubmodules[nameModule] = { subModules: [] };
-  
+
         modulesWithSubmodules[nameModule]['subModules'].push({
-          idSubModule: module.id,
+          id: module.id,
           name: nameSubModule,
           privileges: privilegesWithCheck
         });
       }
-      else
-      {
+      else {
         modulesWithSubmodules[module.name] = {
           idModule: module.id,
           privileges: privilegesWithCheck,
@@ -70,10 +67,10 @@ export class PermissionService {
         };
       }
     }
-  
+
     return modulesWithSubmodules;
   }
-  
+
 
   async createRole(body): Promise<Role | null> {
 
@@ -81,6 +78,33 @@ export class PermissionService {
     if (existName) throw new Error("El nombre del rol ya esta en uso")
 
     return Role.create(body)
+  }
+
+  async changePrivilegeRole(idRole: number, idPrivilege: number) {
+
+    const existPrivilegeRole = await this.privilegeRoleModel.findOne({
+      where: {
+        'role_id': idRole,
+        'privilege_id': idPrivilege
+      }
+    })
+
+    if (existPrivilegeRole) {
+      await this.privilegeRoleModel.destroy({
+        where: {
+          role_id: idRole,
+          privilege_id: idPrivilege
+        }
+      });
+    }
+    else {
+      await this.privilegeRoleModel.create({
+        role_id: idRole,
+        privilege_id: idPrivilege
+      });
+    }
+
+    return true
   }
 
   async deleteRole(id: number): Promise<number | null> {

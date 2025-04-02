@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Post, Req, Delete } from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Req, Delete, Put } from '@nestjs/common';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { ApiResponse } from "../../utils/apiResponse"
 import { PermissionService } from './permissions.service';
@@ -54,6 +54,18 @@ export class PermissionController {
     try {
       const data = await this.permissionService.getAllModulesWithPrivileges(req.params.idRole);
       return ApiResponse.success('Consultado correctamente', data);
+    }
+    catch (error) {
+      return ApiResponse.error(error);
+    }
+  }
+
+  @Put('/roles/:idRole/privilege/:idPrivilege')
+  @UseGuards(JwtAuthGuard)
+  async changePrivilegeRole(@Req() req: RequestWithUser) {
+    try {
+      const data = await this.permissionService.changePrivilegeRole(req.params.idRole, req.params.idPrivilege);
+      return ApiResponse.success('Actualizado correctamente', data);
     }
     catch (error) {
       return ApiResponse.error(error);
