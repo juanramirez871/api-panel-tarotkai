@@ -17,8 +17,6 @@ export default {
     async up(queryInterface: QueryInterface) {
         const modules = Object.values(ModulesWithSubmodules).map((name) => ({
             name,
-            createdAt: new Date(),
-            updatedAt: new Date(),
         }));
 
         await queryInterface.bulkInsert('modules', modules);

@@ -9,21 +9,21 @@ export async function up(queryInterface: QueryInterface) {
       allowNull: false,
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
       unique: true,
     },
     extension: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(10),
       allowNull: true,
       unique: true,
     },
     password: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
       unique: false,
     },

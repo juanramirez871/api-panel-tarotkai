@@ -80,7 +80,7 @@ export class PermissionService {
     return Role.create(body)
   }
 
-  async changePrivilegeRole(idRole: number, idPrivilege: number) {
+  async changePrivilegeRole(idRole: number, idPrivilege: number): Promise<boolean> {
 
     const existPrivilegeRole = await this.privilegeRoleModel.findOne({
       where: {

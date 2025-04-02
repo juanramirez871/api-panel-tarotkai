@@ -3,7 +3,7 @@ import { Module } from './modules.model';
 
 @Table({
   tableName: 'privileges',
-  timestamps: true,
+  timestamps: false,
 })
 export class Privilege extends Model {
   @Column({

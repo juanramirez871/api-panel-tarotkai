@@ -9,22 +9,14 @@ export async function up(queryInterface: QueryInterface) {
       allowNull: false,
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
       unique: true
     },
     icon: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: true,
       unique: false
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
     },
   });
 }

@@ -1,7 +1,7 @@
 import { QueryInterface, DataTypes } from 'sequelize';
 
 export async function up(queryInterface: QueryInterface) {
-  await queryInterface.createTable('privileges', {
+  await queryInterface.createTable('type_calls', {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
@@ -11,19 +11,26 @@ export async function up(queryInterface: QueryInterface) {
     name: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      unique: true
     },
-    module_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+    description: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    free_time: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
       allowNull: false,
-      references: {
-        model: 'modules',
-        key: 'id',
-      },
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
   });
 }
 
 export async function down(queryInterface: QueryInterface) {
-  await queryInterface.dropTable('privileges');
+  await queryInterface.dropTable('type_calls');
 }
