@@ -48,4 +48,16 @@ export class PermissionController {
     }
   }
 
+  @Get('/modules')
+  @UseGuards(JwtAuthGuard)
+  async getAllModules() {
+    try {
+      const data = await this.permissionService.getAllModules();
+      return ApiResponse.success('Consultado correctamente', data);
+    }
+    catch (error) {
+      return ApiResponse.error(error);
+    }
+  }
+
 }
