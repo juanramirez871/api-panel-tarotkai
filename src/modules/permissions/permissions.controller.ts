@@ -50,9 +50,9 @@ export class PermissionController {
 
   @Get('/modules')
   @UseGuards(JwtAuthGuard)
-  async getAllModules() {
+  async getAllModulesWithPrivileges() {
     try {
-      const data = await this.permissionService.getAllModules();
+      const data = await this.permissionService.getAllModulesWithPrivileges();
       return ApiResponse.success('Consultado correctamente', data);
     }
     catch (error) {

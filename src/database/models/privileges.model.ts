@@ -2,7 +2,7 @@ import { Column, Model, Table, DataType, ForeignKey, BelongsTo } from 'sequelize
 import { Module } from './modules.model';
 
 @Table({
-  tableName: 'modules',
+  tableName: 'privileges',
   timestamps: true,
 })
 export class Privilege extends Model {

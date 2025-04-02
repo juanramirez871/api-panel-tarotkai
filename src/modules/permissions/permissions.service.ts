@@ -4,6 +4,7 @@ import { Role } from 'src/database/models/roles.model';
 import { col } from 'sequelize';
 import { User } from 'src/database/models/user.model';
 import { Module } from 'src/database/models/modules.model';
+import { Privilege } from 'src/database/models/privileges.model';
 
 @Injectable()
 export class PermissionService {
@@ -11,6 +12,7 @@ export class PermissionService {
     @InjectModel(Role) private roleModel: typeof Role,
     @InjectModel(User) private userModel: typeof User,
     @InjectModel(Module) private moduleModel: typeof Module,
+    @InjectModel(Privilege) private privilegeModel: typeof Privilege,
   ) { }
 
 
@@ -18,23 +20,27 @@ export class PermissionService {
     return this.roleModel.findAll()
   }
 
-  async getAllModules() {
+  async getAllModulesWithPrivileges() {
 
     const modulesWithSubmodules: any = {}
     const modules = await this.moduleModel.findAll()
 
-    modules.forEach((el: any) => {
-
-      const module = el.get({ plain: true })
+    for (const el of modules)
+    {
+      const module = el.get({ plain: true });
+      const privileges = await this.privilegeModel.findAll({
+        attributes: [['id', 'idPrivilege'], 'name'],
+        where: { module_id: module.id }
+      });
+    
       if (module.name.includes('_'))
       {
-        const nameModule = module.name.split('_')[0]
+        const nameModule = module.name.split('_')[0];
         const nameSubModule = module.name.split('_').slice(1).join('_');
-        modulesWithSubmodules[nameModule]['subModules'].push({ idSubModule: module.id ,name: nameSubModule })
+        modulesWithSubmodules[nameModule]['subModules'].push({ idSubModule: module.id, name: nameSubModule, privileges });
       }
-      else modulesWithSubmodules[module.name] = { idModule: module.id, privileges: [], subModules: [] }
-
-    })
+      else modulesWithSubmodules[module.name] = { idModule: module.id, privileges, subModules: [] };
+    }
 
     return modulesWithSubmodules
   }
