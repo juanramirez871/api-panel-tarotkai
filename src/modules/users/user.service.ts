@@ -15,7 +15,7 @@ export class UserService {
   async findByEmail(email: string): Promise<User | null> {
     return this.userModel.findOne(
       {
-        attributes: ["email", "name", "extension"],
+        attributes: ["email", "name", "extension", "password"],
         where: { email }
       });
   }

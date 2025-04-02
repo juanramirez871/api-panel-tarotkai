@@ -7,17 +7,16 @@ import { ApiResponse } from "../../utils/apiResponse"
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('login')
   @UseGuards(new ValidationGuard(loginSchema))
-  async login(@Body('email') email: string, @Body('password') password: string)
-  {
+  async login(@Body('email') email: string, @Body('password') password: string) {
     try {
       const data = await this.authService.login(email, password);
       return ApiResponse.success('Inicio de sesion exitoso', data);
     }
-    catch(error) {
+    catch (error) {
       return ApiResponse.error(error);
     }
   }
