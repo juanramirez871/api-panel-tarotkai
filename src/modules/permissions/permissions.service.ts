@@ -30,9 +30,9 @@ export class PermissionService {
       {
         const nameModule = module.name.split('_')[0]
         const nameSubModule = module.name.split('_').slice(1).join('_');
-        modulesWithSubmodules[nameModule]['subModules'].push({ name: nameSubModule })
+        modulesWithSubmodules[nameModule]['subModules'].push({ idSubModule: module.id ,name: nameSubModule })
       }
-      else modulesWithSubmodules[module.name] = { privileges: [], subModules: [] }
+      else modulesWithSubmodules[module.name] = { idModule: module.id, privileges: [], subModules: [] }
 
     })
 

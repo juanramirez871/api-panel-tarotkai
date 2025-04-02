@@ -2,14 +2,14 @@ import { QueryInterface } from 'sequelize';
 
 const ModulesWithSubmodules = {
     CALLS: 'llamadas',
-    REPORTS: 'reportes',
-    GOALS: 'metas',
-    METRICS: 'metricas',
     RESERVATIONS: 'reservas',
     CLIENTS: 'clientes',
+    GOALS: 'metas',
+    REPORTS: 'reportes',
+    METRICS: 'metricas',
     CONFIGURATION: 'configuracion',
-    CONFIGURATION_USERS: 'configuracion_usuarios',
     CONFIGURATION_PERMISSIONS: 'configuracion_permisos',
+    CONFIGURATION_USERS: 'configuracion_usuarios',
     CONFIGURATION_CALL_TYPE: 'configuracion_tipo_de_llamada',
 }
 
