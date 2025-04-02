@@ -48,11 +48,11 @@ export class PermissionController {
     }
   }
 
-  @Get('/modules')
+  @Get('/roles/:idRole/modules')
   @UseGuards(JwtAuthGuard)
-  async getAllModulesWithPrivileges() {
+  async getAllModulesWithPrivileges(@Req() req: RequestWithUser) {
     try {
-      const data = await this.permissionService.getAllModulesWithPrivileges();
+      const data = await this.permissionService.getAllModulesWithPrivileges(req.params.idRole);
       return ApiResponse.success('Consultado correctamente', data);
     }
     catch (error) {

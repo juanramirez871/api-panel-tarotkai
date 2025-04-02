@@ -5,6 +5,7 @@ import { col } from 'sequelize';
 import { User } from 'src/database/models/user.model';
 import { Module } from 'src/database/models/modules.model';
 import { Privilege } from 'src/database/models/privileges.model';
+import { privilegeRole } from 'src/database/models/privileges-roles.model';
 
 @Injectable()
 export class PermissionService {
@@ -13,6 +14,7 @@ export class PermissionService {
     @InjectModel(User) private userModel: typeof User,
     @InjectModel(Module) private moduleModel: typeof Module,
     @InjectModel(Privilege) private privilegeModel: typeof Privilege,
+    @InjectModel(privilegeRole) private privilegeRoleModel: typeof privilegeRole,
   ) { }
 
 
@@ -20,11 +22,10 @@ export class PermissionService {
     return this.roleModel.findAll()
   }
 
-  async getAllModulesWithPrivileges() {
-
-    const modulesWithSubmodules: any = {}
-    const modules = await this.moduleModel.findAll()
-
+  async getAllModulesWithPrivileges(idRole: number) {
+    const modulesWithSubmodules: any = {};
+    const modules = await this.moduleModel.findAll();
+  
     for (const el of modules)
     {
       const module = el.get({ plain: true });
@@ -32,18 +33,47 @@ export class PermissionService {
         attributes: [['id', 'idPrivilege'], 'name'],
         where: { module_id: module.id }
       });
-    
+  
+      const privilegesUserModule = await this.privilegeRoleModel.findAll({
+        attributes: ['privilege_id', 'role_id', 'id'],
+        where: { role_id: idRole }
+      });
+  
+      const privilegesWithCheck = privileges.map(privilege => {
+        const privilegePlain = privilege.get({ plain: true });
+
+        return {
+          ...privilegePlain,
+          check: privilegesUserModule.some(privileUser => privileUser.dataValues.privilege_id === privilegePlain.idPrivilege)
+        };
+      });
+  
       if (module.name.includes('_'))
       {
         const nameModule = module.name.split('_')[0];
         const nameSubModule = module.name.split('_').slice(1).join('_');
-        modulesWithSubmodules[nameModule]['subModules'].push({ idSubModule: module.id, name: nameSubModule, privileges });
+  
+        if (!modulesWithSubmodules[nameModule]) modulesWithSubmodules[nameModule] = { subModules: [] };
+  
+        modulesWithSubmodules[nameModule]['subModules'].push({
+          idSubModule: module.id,
+          name: nameSubModule,
+          privileges: privilegesWithCheck
+        });
       }
-      else modulesWithSubmodules[module.name] = { idModule: module.id, privileges, subModules: [] };
+      else
+      {
+        modulesWithSubmodules[module.name] = {
+          idModule: module.id,
+          privileges: privilegesWithCheck,
+          subModules: []
+        };
+      }
     }
-
-    return modulesWithSubmodules
+  
+    return modulesWithSubmodules;
   }
+  
 
   async createRole(body): Promise<Role | null> {
 
