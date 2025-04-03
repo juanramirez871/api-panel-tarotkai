@@ -16,7 +16,7 @@ export class UserService {
     return this.userModel.findOne(
       {
         attributes: ["email", "name", "extension", "password", "id"],
-        where: { email }
+        where: { email, delete: 0 }
       });
   }
 
@@ -24,12 +24,12 @@ export class UserService {
     return this.userModel.findOne(
       {
         attributes: ["email", "name", "extension"],
-        where: { extension: extent }
+        where: { extension: extent, delete: 0 }
       });
   }
 
   async getUserById(id: number): Promise<User | null> {
-    return this.userModel.findByPk(id)
+    return this.userModel.findOne({ where: { delete: 0 } })
   }
 
   async getAllUsers(): Promise<User[] | null> {
@@ -50,6 +50,9 @@ export class UserService {
           attributes: []
         }
       ],
+      where: {
+        delete: 0
+      },
       order: [["created_at", "DESC"]]
     })
   }
@@ -63,10 +66,11 @@ export class UserService {
         "name",
         "email",
         "extension",
-        "created_at"
+        ["created_at", "createdAt"]
       ],
       where: {
-        email
+        email,
+        delete: 0
       },
       include: [
         {
@@ -142,17 +146,20 @@ export class UserService {
   }
 
   async deleteUser(id: number): Promise<number> {
+    const existUser = await this.getUserById(id);
+    if (!existUser) throw new Error("Usuario no existe");
 
-    const existUser = await this.getUserById(id)
-    if (!existUser) throw new Error("Usuario no existe")
-
-    const user = await this.userModel.destroy({
-      where: {
-        id
+    const [updatedRows] = await this.userModel.update(
+      {
+        delete: 1,
+        extension: null,
       },
-    });
+      {
+        where: { id },
+      }
+    );
 
-    return user
+    return updatedRows;
   }
 
 }
