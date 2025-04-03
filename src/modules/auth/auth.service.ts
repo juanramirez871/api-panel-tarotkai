@@ -8,7 +8,7 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
-  ) {}
+  ) { }
 
   async login(email: string, password: string) {
     const user = (await this.userService.findByEmail(email))?.get({ plain: true });
@@ -16,7 +16,7 @@ export class AuthService {
       throw new UnauthorizedException('Credenciales incorrectas');
     }
 
-    const payload = { email: user.email, sub: user.id };
+    const payload = { email: user.email, id: user.id };
     return {
       access_token: this.jwtService.sign(payload),
       email,

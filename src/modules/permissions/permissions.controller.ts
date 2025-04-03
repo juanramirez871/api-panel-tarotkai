@@ -28,7 +28,7 @@ export class PermissionController {
   @UseGuards(new ValidationGuard(createRole))
   async createRole(@Req() req: RequestWithUser) {
     try {
-      const data = await this.permissionService.createRole(req.body);
+      const data = await this.permissionService.createRole(req.body, req.user.id);
       return ApiResponse.success('Guardado correctamente', data);
     }
     catch (error) {
@@ -64,7 +64,11 @@ export class PermissionController {
   @UseGuards(JwtAuthGuard)
   async changePrivilegeRole(@Req() req: RequestWithUser) {
     try {
-      const data = await this.permissionService.changePrivilegeRole(req.params.idRole, req.params.idPrivilege);
+      const data = await this.permissionService.changePrivilegeRole(
+        req.params.idRole,
+        req.params.idPrivilege,
+        req.user.id
+      );
       return ApiResponse.success('Actualizado correctamente', data);
     }
     catch (error) {

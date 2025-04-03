@@ -64,7 +64,7 @@ export class UserController {
   @UseGuards(new ValidationGuard(editUser))
   async editUser(@Req() req: RequestWithUser) {
     try {
-      const data = await this.userService.editUser(req.body, req.params.id);
+      const data = await this.userService.editUser(req.body, req.params.id, req.user.id);
       return ApiResponse.success('Actualizado correctamente', data);
     }
     catch (error) {
@@ -77,7 +77,7 @@ export class UserController {
   @UseGuards(new ValidationGuard(createUser))
   async createUser(@Req() req: RequestWithUser) {
     try {
-      const data = await this.userService.createUser(req.body);
+      const data = await this.userService.createUser(req.body, req.user.id);
       return ApiResponse.success('Guardado correctamente', data);
     }
     catch (error) {

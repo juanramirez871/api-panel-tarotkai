@@ -15,7 +15,7 @@ export class UserService {
   async findByEmail(email: string): Promise<User | null> {
     return this.userModel.findOne(
       {
-        attributes: ["email", "name", "extension", "password"],
+        attributes: ["email", "name", "extension", "password", "id"],
         where: { email }
       });
   }
@@ -41,7 +41,7 @@ export class UserService {
         "name",
         "email",
         "extension",
-        "createdAt"
+        ["created_at", "createdAt"]
       ],
       include: [
         {
@@ -50,7 +50,7 @@ export class UserService {
           attributes: []
         }
       ],
-      order: [["createdAt", "DESC"]]
+      order: [["created_at", "DESC"]]
     })
   }
 
@@ -63,7 +63,7 @@ export class UserService {
         "name",
         "email",
         "extension",
-        "createdAt"
+        "created_at"
       ],
       where: {
         email
@@ -78,7 +78,7 @@ export class UserService {
     })
   }
 
-  async createUser(body): Promise<User | null> {
+  async createUser(body: any, userId: number): Promise<User | null> {
 
     const existEmail = await this.findByEmail(body.email)
     if (existEmail) throw new Error("Correo ya esta en uso")
@@ -93,13 +93,16 @@ export class UserService {
       email: body.email,
       role_id: body.rolId,
       password: hashedPassword,
-      extension: body.extent
+      extension: body.extent,
+      created_by: userId,
+      updated_by: userId,
+      delete: 0
     })
 
     return await this.getUserWithRolByEmail(body.email)
   }
 
-  async editUser(body, id: number): Promise<User | null> {
+  async editUser(body, id: number, userId: number): Promise<User | null> {
 
     const user = (await this.getUserById(id))?.get({ plain: true })
     if (!user) throw new Error("El usuario no existe")
@@ -125,7 +128,8 @@ export class UserService {
         email: body.email,
         role_id: body.rolId,
         password: body.password ?? user.password,
-        extension: body.extent
+        extension: body.extent,
+        updated_by: userId
       },
       {
         where: {

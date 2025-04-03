@@ -51,7 +51,7 @@ export class TypeCallController {
   @UseGuards(new ValidationGuard(createOrEditTypeCall))
   async editTypeCalls(@Req() req: RequestWithUser) {
     try {
-      const data = await this.typeCallService.editTypeCalls(req.params.idTypeCall, req.body);
+      const data = await this.typeCallService.editTypeCalls(req.params.idTypeCall, req.body, req.user.id);
       return ApiResponse.success('Actualizado correctamente', data);
     }
     catch (error) {
@@ -64,7 +64,7 @@ export class TypeCallController {
   @UseGuards(new ValidationGuard(createOrEditTypeCall))
   async createTypeCalls(@Req() req: RequestWithUser) {
     try {
-      const data = await this.typeCallService.createTypeCalls(req.body);
+      const data = await this.typeCallService.createTypeCalls(req.body, req.user.id);
       return ApiResponse.success('Guardado correctamente', data);
     }
     catch (error) {

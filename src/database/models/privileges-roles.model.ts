@@ -2,10 +2,11 @@ import { Column, Model, Table, DataType, ForeignKey, BelongsTo } from 'sequelize
 import { Module } from './modules.model';
 import { Role } from './roles.model';
 import { Privilege } from './privileges.model';
+import { User } from './user.model';
 
 @Table({
   tableName: 'privileges_roles',
-  timestamps: true,
+  timestamps: false,
 })
 export class privilegeRole extends Model {
   @ForeignKey(() => Role)
@@ -27,4 +28,24 @@ export class privilegeRole extends Model {
 
   @BelongsTo(() => Privilege)
   privilege: Privilege;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.INTEGER.UNSIGNED,
+    allowNull: false,
+  })
+  created_by: number;
+
+  @BelongsTo(() => User)
+  created: User;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.INTEGER.UNSIGNED,
+    allowNull: false,
+  })
+  updated_by: number;
+
+  @BelongsTo(() => User)
+  updated: User;
 }

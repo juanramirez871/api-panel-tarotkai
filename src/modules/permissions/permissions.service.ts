@@ -72,15 +72,18 @@ export class PermissionService {
   }
 
 
-  async createRole(body): Promise<Role | null> {
+  async createRole(body: any, userId: number): Promise<Role | null> {
 
     const existName = await this.roleModel.findOne({ where: { name: body.name } })
     if (existName) throw new Error("El nombre del rol ya esta en uso")
 
+    body['created_by'] = userId
+    body['updated_by'] = userId
+    console.log(userId);
     return Role.create(body)
   }
 
-  async changePrivilegeRole(idRole: number, idPrivilege: number): Promise<boolean> {
+  async changePrivilegeRole(idRole: number, idPrivilege: number, userId: number): Promise<boolean> {
 
     const existPrivilegeRole = await this.privilegeRoleModel.findOne({
       where: {
@@ -100,7 +103,9 @@ export class PermissionService {
     else {
       await this.privilegeRoleModel.create({
         role_id: idRole,
-        privilege_id: idPrivilege
+        privilege_id: idPrivilege,
+        created_by: userId,
+        updated_by: userId
       });
     }
 

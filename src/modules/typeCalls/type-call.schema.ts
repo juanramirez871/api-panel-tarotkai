@@ -9,10 +9,9 @@ export const createOrEditTypeCall = z.object({
     .string({ message: "descripcion es obligatorio" })
     .nonempty("descripcion es obligatorio"),
   free_time: z
-    .string()
-    .nonempty("tiempo gratis es obligatorio")
-    .refine(value => !isNaN(Number(value)), {
-      message: "tiempo gratis debe ser un número",
-    })
+    .union([z.string(), z.number()])
+    .refine(value => value !== "", { message: "tiempo gratis es obligatorio" })
     .transform(value => Number(value))
+    .refine(value => !isNaN(value), { message: "tiempo gratis debe ser un número" })
+    .refine(value => value > 0, { message: "tiempo gratis debe ser mayor que 0" }),
 });

@@ -3,11 +3,14 @@ import {
   Column,
   Model,
   DataType,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
+import { User } from './user.model';
 
 @Table({
   tableName: 'type_calls',
-  timestamps: true,
+  timestamps: false,
 })
 export class TypeCall extends Model {
   @Column({
@@ -30,4 +33,30 @@ export class TypeCall extends Model {
     unique: false,
   })
   free_time: number;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+  })
+  delete: boolean;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.INTEGER.UNSIGNED,
+    allowNull: false,
+  })
+  created_by: number;
+
+  @BelongsTo(() => User)
+  created: User;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.INTEGER.UNSIGNED,
+    allowNull: false,
+  })
+  updated_by: number;
+
+  @BelongsTo(() => User)
+  updated: User;
 }

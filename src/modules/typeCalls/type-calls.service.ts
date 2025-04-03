@@ -38,7 +38,7 @@ export class TypeCallService {
     return typeCall
   }
 
-  async editTypeCalls(idTypeCall: number, payload: any): Promise<TypeCall | null> {
+  async editTypeCalls(idTypeCall: number, payload: any, userId: number): Promise<TypeCall | null> {
 
     const existTypeCall = await this.getTypeCall(idTypeCall)
     if (!existTypeCall) throw new Error("Tipo de llamada no existe")
@@ -48,6 +48,7 @@ export class TypeCallService {
       if (existTypeCallByName) throw new Error("Tipo de llamada ya esta en uso")
     }
 
+    payload['updated_by'] = userId
     await this.typeCallModel.update(
       payload,
       {
@@ -59,11 +60,14 @@ export class TypeCallService {
     return await this.getTypeCall(idTypeCall)
   }
 
-  async createTypeCalls(payload: any): Promise<TypeCall | null> {
+  async createTypeCalls(payload: any, userId: number): Promise<TypeCall | null> {
 
     const existTypeCall = await this.getTypeCallByName(payload.name)
     if (existTypeCall) throw new Error("Tipo de llamada ya esta en uso")
 
+    payload['created_by'] = userId
+    payload['updated_by'] = userId
+    payload['delete'] = 0
     await this.typeCallModel.create(payload);
 
     return await this.getTypeCallByName(payload.name)
