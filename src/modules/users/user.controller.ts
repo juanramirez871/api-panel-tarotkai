@@ -5,6 +5,8 @@ import { UserService } from './user.service';
 import { RequestWithUser } from '../auth/auth.interfaces';
 import { ValidationGuard } from 'src/guards/validation.guard';
 import { createUser, editUser } from './user.schema';
+import { PrivilegesEnum } from '../permissions/permissions.enums';
+import { ValidatePrivilegesGuard } from 'src/guards/validate-privileges.guard';
 
 @Controller('user')
 export class UserController {
@@ -75,6 +77,7 @@ export class UserController {
   @Post('/')
   @UseGuards(JwtAuthGuard)
   @UseGuards(new ValidationGuard(createUser))
+  @ValidatePrivilegesGuard([PrivilegesEnum.CREAR_USUARIOS])
   async createUser(@Req() req: RequestWithUser) {
     try {
       const data = await this.userService.createUser(req.body, req.user.id);

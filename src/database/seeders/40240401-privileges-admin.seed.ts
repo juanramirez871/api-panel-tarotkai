@@ -159,6 +159,10 @@ export default {
         name: ' Eliminar usuarios',
         module_id: 9,
       },
+      {
+        name: ' Crear usuarios',
+        module_id: 9,
+      },
 
 
       {

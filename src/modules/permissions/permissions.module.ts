@@ -9,7 +9,7 @@ import { Privilege } from 'src/database/models/privileges.model';
 import { privilegeRole } from 'src/database/models/privileges-roles.model';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Role, User, ModuleModel, Privilege, privilegeRole])],
+  imports: [SequelizeModule.forFeature([Role, User, ModuleModel, Privilege, privilegeRole]), PermissionModule],
   providers: [PermissionService],
   controllers: [PermissionController],
   exports: [PermissionService],

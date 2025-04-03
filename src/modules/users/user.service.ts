@@ -153,7 +153,8 @@ export class UserService {
       {
         delete: 1,
         extension: null,
-        role_id: null
+        role_id: null,
+        email: null
       },
       {
         where: { id },

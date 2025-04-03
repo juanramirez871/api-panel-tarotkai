@@ -1,0 +1,75 @@
+export enum PrivilegesEnum {
+    // Módulo de llamadas
+    MODULO_LLAMADAS = 1,
+    CREAR_LLAMADAS = 2,
+    CREAR_CLIENTES = 3,
+
+    // Módulo de reservas
+    MODULO_RESERVAS = 4,
+    CREAR_RESERVAS = 5,
+    EDITAR_RESERVAS = 6,
+    ELIMINAR_RESERVAS = 7,
+    VER_RESERVAS = 8,
+
+    // Módulo de clientes
+    MODULO_CLIENTES = 9,
+    VER_CLIENTES = 10,
+    EDITAR_CLIENTES = 11,
+    ELIMINAR_CLIENTES = 12,
+    CREAR_CLIENTES_2 = 13,
+
+    // Módulo de metas
+    MODULO_METAS = 14,
+    VER_META_ANUAL = 15,
+    VER_META_MENSUAL = 16,
+    VER_META_SEMANAL = 17,
+    VER_METAS_INDIVIDUALES = 18,
+
+    // Módulo de reportes
+    MODULO_REPORTES = 19,
+    DESCARGAR_EXCEL_REPORTES = 20,
+    VER_REPORTES = 21,
+
+    // Módulo de métricas
+    MODULO_METRICAS = 22,
+    VER_METRICAS_LLAMADAS_GENERALES = 23,
+    VER_METRICAS_CLIENTES_GENERALES = 24,
+    VER_METRICAS_CENTRALES = 25,
+    VER_METRICAS_TAROTISTAS = 26,
+
+    // Módulo de usuarios
+    MODULO_USUARIOS = 27,
+    MODULO_PERMISOS = 28,
+    MODULO_TIPO_LLAMADAS = 29,
+
+    // Gestión de roles y privilegios
+    CREAR_ROLES = 30,
+    ELIMINAR_ROLES = 31,
+    MODIFICAR_PRIVILEGIOS = 32,
+
+    // Gestión de usuarios
+    VER_USUARIOS = 33,
+    EDITAR_USUARIOS = 34,
+    ELIMINAR_USUARIOS = 35,
+    CREAR_USUARIOS = 36,
+
+    // Tipos de llamadas
+    VER_TIPOS_LLAMADAS = 37,
+    EDITAR_TIPOS_LLAMADAS = 38,
+    ELIMINAR_TIPOS_LLAMADAS = 39,
+    CREAR_TIPOS_LLAMADAS = 40,
+}
+
+
+export enum ModulesEnum {
+    CALLS = 1,
+    RESERVATIONS = 2,
+    CLIENTS = 3,
+    GOALS = 4,
+    REPORTS = 5,
+    METRICS = 6,
+    CONFIGURATION = 7,
+    CONFIGURATION_PERMISSIONS = 8,
+    CONFIGURATION_USERS = 9,
+    CONFIGURATION_CALL_TYPE = 10,
+}

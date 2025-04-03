@@ -14,7 +14,7 @@ export async function up(queryInterface: QueryInterface) {
     },
     email: {
       type: DataTypes.STRING(50),
-      allowNull: false,
+      allowNull: true,
       unique: true,
     },
     extension: {

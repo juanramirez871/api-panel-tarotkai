@@ -125,4 +125,18 @@ export class PermissionService {
 
     return roleDelete
   }
+
+  async checkPrivilegeUserCurrent(privilegeId: number, userId: number): Promise<boolean> {
+
+    const user = await this.userModel.findByPk(userId)
+    const existPrivilege = await this.privilegeRoleModel.findOne({
+      where: {
+        privilege_id: privilegeId,
+        role_id: user?.dataValues?.role_id
+      }
+    })
+
+    if (existPrivilege) return true
+    return false
+  }
 }
