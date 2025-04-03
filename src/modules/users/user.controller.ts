@@ -65,7 +65,7 @@ export class UserController {
   async editUser(@Req() req: RequestWithUser) {
     try {
       const data = await this.userService.editUser(req.body, req.params.id);
-      return ApiResponse.success('Editado correctamente', data);
+      return ApiResponse.success('Actualizado correctamente', data);
     }
     catch (error) {
       return ApiResponse.error(error);

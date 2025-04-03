@@ -142,7 +142,7 @@ export class UserService {
     const existUser = await this.getUserById(id)
     if (!existUser) throw new Error("Usuario no existe")
 
-    const user = await User.destroy({
+    const user = await this.userModel.destroy({
       where: {
         id
       },

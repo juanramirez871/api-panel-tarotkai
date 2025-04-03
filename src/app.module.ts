@@ -9,6 +9,7 @@ import { Module as ModuleModel } from './database/models/modules.model';
 import { PermissionModule } from './modules/permissions/permissions.module';
 import { Privilege } from './database/models/privileges.model';
 import { privilegeRole } from './database/models/privileges-roles.model';
+import { TypeCall } from './database/models/type-calls.model';
 dotenv.config();
 
 @Module({
@@ -25,7 +26,8 @@ dotenv.config();
         Role,
         ModuleModel,
         Privilege,
-        privilegeRole
+        privilegeRole,
+        TypeCall
       ],
       autoLoadModels: true,
       synchronize: true,
