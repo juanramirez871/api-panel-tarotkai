@@ -5,6 +5,8 @@ import { PermissionService } from './permissions.service';
 import { RequestWithUser } from '../auth/auth.interfaces';
 import { createRole } from './permissions.schema';
 import { ValidationGuard } from 'src/guards/validation.guard';
+import { PrivilegesEnum } from './permissions.enums';
+import { ValidatePrivilegesGuard } from 'src/guards/validate-privileges.guard';
 
 @Controller('permission')
 export class PermissionController {
@@ -26,6 +28,7 @@ export class PermissionController {
   @Post('/role')
   @UseGuards(JwtAuthGuard)
   @UseGuards(new ValidationGuard(createRole))
+  @ValidatePrivilegesGuard([PrivilegesEnum.CREAR_ROLES])
   async createRole(@Req() req: RequestWithUser) {
     try {
       const data = await this.permissionService.createRole(req.body, req.user.id);
@@ -38,6 +41,7 @@ export class PermissionController {
 
   @Delete('/role/:id')
   @UseGuards(JwtAuthGuard)
+  @ValidatePrivilegesGuard([PrivilegesEnum.ELIMINAR_ROLES])
   async deleteRole(@Req() req: RequestWithUser) {
     try {
       const data = await this.permissionService.deleteRole(req.params.id);
@@ -62,6 +66,7 @@ export class PermissionController {
 
   @Put('/roles/:idRole/privilege/:idPrivilege')
   @UseGuards(JwtAuthGuard)
+  @ValidatePrivilegesGuard([PrivilegesEnum.MODIFICAR_PRIVILEGIOS])
   async changePrivilegeRole(@Req() req: RequestWithUser) {
     try {
       const data = await this.permissionService.changePrivilegeRole(

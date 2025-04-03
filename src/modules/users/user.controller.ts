@@ -27,6 +27,7 @@ export class UserController {
 
   @Get('/all')
   @UseGuards(JwtAuthGuard)
+  @ValidatePrivilegesGuard([PrivilegesEnum.VER_USUARIOS])
   async getAllUsers() {
     try {
       const data = await this.userService.getAllUsers();
@@ -39,6 +40,7 @@ export class UserController {
 
   @Get('/:id')
   @UseGuards(JwtAuthGuard)
+  @ValidatePrivilegesGuard([PrivilegesEnum.VER_USUARIOS])
   async getUser(@Req() req: RequestWithUser) {
     try {
       const data = await this.userService.getUserById(req.params.id);
@@ -51,6 +53,7 @@ export class UserController {
 
   @Delete('/:id')
   @UseGuards(JwtAuthGuard)
+  @ValidatePrivilegesGuard([PrivilegesEnum.ELIMINAR_USUARIOS])
   async deleteUser(@Req() req: RequestWithUser) {
     try {
       const data = await this.userService.deleteUser(req.params.id);
@@ -64,6 +67,7 @@ export class UserController {
   @Put('/:id')
   @UseGuards(JwtAuthGuard)
   @UseGuards(new ValidationGuard(editUser))
+  @ValidatePrivilegesGuard([PrivilegesEnum.EDITAR_USUARIOS])
   async editUser(@Req() req: RequestWithUser) {
     try {
       const data = await this.userService.editUser(req.body, req.params.id, req.user.id);
