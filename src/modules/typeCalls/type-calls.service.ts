@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Body } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { col } from 'sequelize';
 import { TypeCall } from 'src/database/models/type-calls.model';
@@ -43,8 +43,10 @@ export class TypeCallService {
     const existTypeCall = await this.getTypeCall(idTypeCall)
     if (!existTypeCall) throw new Error("Tipo de llamada no existe")
 
-    const existTypeCallByName = await this.getTypeCallByName(payload.name)
-    if (existTypeCallByName) throw new Error("Tipo de llamada ya esta en uso")
+    if (existTypeCall.dataValues.name != payload.name) {
+      const existTypeCallByName = await this.getTypeCallByName(payload.name)
+      if (existTypeCallByName) throw new Error("Tipo de llamada ya esta en uso")
+    }
 
     await this.typeCallModel.update(
       payload,

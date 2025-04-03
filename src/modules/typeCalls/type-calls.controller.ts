@@ -6,11 +6,11 @@ import { ValidationGuard } from 'src/guards/validation.guard';
 import { TypeCallService } from './type-calls.service';
 import { createOrEditTypeCall } from './type-call.schema';
 
-@Controller('user')
+@Controller('type-calls')
 export class TypeCallController {
   constructor(private readonly typeCallService: TypeCallService) { }
 
-  @Get('/type-calls')
+  @Get('/')
   @UseGuards(JwtAuthGuard)
   async getTypeCalls() {
     try {
@@ -22,7 +22,7 @@ export class TypeCallController {
     }
   }
 
-  @Get('/type-call/:idTypeCall')
+  @Get('/:idTypeCall')
   @UseGuards(JwtAuthGuard)
   async getTypeCall(@Req() req: RequestWithUser) {
     try {
@@ -34,7 +34,7 @@ export class TypeCallController {
     }
   }
 
-  @Delete('/type-calls/:idTypeCall')
+  @Delete('/:idTypeCall')
   @UseGuards(JwtAuthGuard)
   async deleteTypeCalls(@Req() req: RequestWithUser) {
     try {
@@ -46,7 +46,7 @@ export class TypeCallController {
     }
   }
 
-  @Put('/type-calls/:idTypeCall')
+  @Put('/:idTypeCall')
   @UseGuards(JwtAuthGuard)
   @UseGuards(new ValidationGuard(createOrEditTypeCall))
   async editTypeCalls(@Req() req: RequestWithUser) {
@@ -59,7 +59,7 @@ export class TypeCallController {
     }
   }
 
-  @Post('/type-calls')
+  @Post('/')
   @UseGuards(JwtAuthGuard)
   @UseGuards(new ValidationGuard(createOrEditTypeCall))
   async createTypeCalls(@Req() req: RequestWithUser) {

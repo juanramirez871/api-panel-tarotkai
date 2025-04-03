@@ -10,6 +10,7 @@ import { PermissionModule } from './modules/permissions/permissions.module';
 import { Privilege } from './database/models/privileges.model';
 import { privilegeRole } from './database/models/privileges-roles.model';
 import { TypeCall } from './database/models/type-calls.model';
+import { TypeCallModule } from './modules/typeCalls/type-call.module';
 dotenv.config();
 
 @Module({
@@ -27,14 +28,15 @@ dotenv.config();
         ModuleModel,
         Privilege,
         privilegeRole,
-        TypeCall
+        TypeCall,
       ],
       autoLoadModels: true,
       synchronize: true,
     }),
     AuthModule,
     UserModule,
-    PermissionModule
+    PermissionModule,
+    TypeCallModule
   ],
 })
 export class AppModule { }
