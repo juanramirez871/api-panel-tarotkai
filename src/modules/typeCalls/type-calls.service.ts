@@ -11,31 +11,36 @@ export class TypeCallService {
 
 
   async getTypeCalls(): Promise<TypeCall[] | null> {
-    return this.typeCallModel.findAll()
+    return this.typeCallModel.findAll({
+      where: { delete: 0 }
+    })
   }
 
-  async getTypeCall(userId: number): Promise<TypeCall | null> {
-    return this.typeCallModel.findByPk(userId)
+  async getTypeCall(typeCallId: number): Promise<TypeCall | null> {
+    return this.typeCallModel.findOne({
+      where: {
+        delete: 0,
+        id: typeCallId
+      }
+    })
   }
 
   async getTypeCallByName(name: string): Promise<TypeCall | null> {
     return this.typeCallModel.findOne({
-      where: { name }
+      where: { name, delete: 0 }
     })
   }
 
   async deleteTypeCalls(idTypeCall: number): Promise<number> {
+    const existTypeCall = await this.getTypeCall(idTypeCall);
+    if (!existTypeCall) throw new Error("Tipo de llamada no existe");
 
-    const existTypeCall = await this.getTypeCall(idTypeCall)
-    if (!existTypeCall) throw new Error("Tipo de llamada no existe")
+    const [updatedRows] = await this.typeCallModel.update(
+      { delete: 1 },
+      { where: { id: idTypeCall } }
+    );
 
-    const typeCall = await this.typeCallModel.destroy({
-      where: {
-        id: idTypeCall
-      },
-    });
-
-    return typeCall
+    return updatedRows
   }
 
   async editTypeCalls(idTypeCall: number, payload: any, userId: number): Promise<TypeCall | null> {

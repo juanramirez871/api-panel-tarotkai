@@ -29,7 +29,7 @@ export class UserService {
   }
 
   async getUserById(id: number): Promise<User | null> {
-    return this.userModel.findOne({ where: { delete: 0 } })
+    return this.userModel.findOne({ where: { delete: 0, id } })
   }
 
   async getAllUsers(): Promise<User[] | null> {
@@ -153,6 +153,7 @@ export class UserService {
       {
         delete: 1,
         extension: null,
+        role_id: null
       },
       {
         where: { id },

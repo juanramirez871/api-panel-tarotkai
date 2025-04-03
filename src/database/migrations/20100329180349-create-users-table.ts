@@ -29,7 +29,7 @@ export async function up(queryInterface: QueryInterface) {
     },
     role_id: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'roles',
         key: 'id',
