@@ -11,6 +11,8 @@ import { Privilege } from './database/models/privileges.model';
 import { privilegeRole } from './database/models/privileges-roles.model';
 import { TypeCall } from './database/models/type-calls.model';
 import { TypeCallModule } from './modules/typeCalls/type-call.module';
+import { Customer } from './database/models/customers.model';
+import { CustomerModule } from './modules/customers/customers.module';
 dotenv.config();
 
 @Module({
@@ -29,6 +31,7 @@ dotenv.config();
         Privilege,
         privilegeRole,
         TypeCall,
+        Customer
       ],
       autoLoadModels: true,
       synchronize: true,
@@ -36,7 +39,8 @@ dotenv.config();
     AuthModule,
     UserModule,
     PermissionModule,
-    TypeCallModule
+    TypeCallModule,
+    CustomerModule
   ],
 })
 export class AppModule { }

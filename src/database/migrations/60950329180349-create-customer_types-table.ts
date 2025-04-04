@@ -16,6 +16,7 @@ export async function up(queryInterface: QueryInterface) {
     calls: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      defaultValue: 0
     },
     country: {
       type: DataTypes.STRING(50),
