@@ -18,4 +18,11 @@ export class Module extends Model {
     unique: false,
   })
   icon: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: false,
+  })
+  route: string;
 }

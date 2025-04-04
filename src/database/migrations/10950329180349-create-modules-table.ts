@@ -18,6 +18,11 @@ export async function up(queryInterface: QueryInterface) {
       allowNull: true,
       unique: false
     },
+    route: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      unique: false
+    },
   });
 }
 

@@ -1,16 +1,16 @@
 import { QueryInterface } from 'sequelize';
 
 const ModulesWithSubmodules = [
-    { name: 'llamadas', icon: 'Phone' },
-    { name: 'reservas', icon: 'MessageBox' },
-    { name: 'clientes', icon: 'User' },
-    { name: 'metas', icon: 'Star' },
-    { name: 'reportes', icon: 'Document' },
-    { name: 'metricas', icon: 'Histogram' },
-    { name: 'configuracion', icon: 'setting' },
-    { name: 'configuracion_permisos', icon: 'Lock' },
-    { name: 'configuracion_usuarios', icon: 'User' },
-    { name: 'configuracion_tipo_de_llamada', icon: 'Iphone' },
+    { name: 'llamadas', icon: 'Phone', route: "calls" },
+    { name: 'reservas', icon: 'MessageBox', route: "reservations" },
+    { name: 'clientes', icon: 'User', route: "" },
+    { name: 'metas', icon: 'Star', route: "goals" },
+    { name: 'reportes', icon: 'Document', route: "reports" },
+    { name: 'metricas', icon: 'Histogram', route: "metrics" },
+    { name: 'configuracion', icon: 'setting', route: "configuration" },
+    { name: 'configuracion_permisos', icon: 'Lock', route: "privileges" },
+    { name: 'configuracion_usuarios', icon: 'User', route: "users" },
+    { name: 'configuracion_tipo_de_llamada', icon: 'Iphone', route: "type-calls" },
 ];
 
 export default {
