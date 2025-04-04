@@ -1,30 +1,26 @@
 import { QueryInterface } from 'sequelize';
 
-const ModulesWithSubmodules = {
-    CALLS: 'llamadas',
-    RESERVATIONS: 'reservas',
-    CLIENTS: 'clientes',
-    GOALS: 'metas',
-    REPORTS: 'reportes',
-    METRICS: 'metricas',
-    CONFIGURATION: 'configuracion',
-    CONFIGURATION_PERMISSIONS: 'configuracion_permisos',
-    CONFIGURATION_USERS: 'configuracion_usuarios',
-    CONFIGURATION_CALL_TYPE: 'configuracion_tipo_de_llamada',
-}
+const ModulesWithSubmodules = [
+    { name: 'llamadas', icon: 'Phone' },
+    { name: 'reservas', icon: 'MessageBox' },
+    { name: 'clientes', icon: 'User' },
+    { name: 'metas', icon: 'Star' },
+    { name: 'reportes', icon: 'Document' },
+    { name: 'metricas', icon: 'Histogram' },
+    { name: 'configuracion', icon: 'setting' },
+    { name: 'configuracion_permisos', icon: 'Lock' },
+    { name: 'configuracion_usuarios', icon: 'User' },
+    { name: 'configuracion_tipo_de_llamada', icon: 'Iphone' },
+];
 
 export default {
     async up(queryInterface: QueryInterface) {
-        const modules = Object.values(ModulesWithSubmodules).map((name) => ({
-            name,
-        }));
-
-        await queryInterface.bulkInsert('modules', modules);
+        await queryInterface.bulkInsert('modules', ModulesWithSubmodules);
     },
 
     async down(queryInterface: QueryInterface) {
         await queryInterface.bulkDelete('modules', {
-            name: Object.values(ModulesWithSubmodules),
+            name: ModulesWithSubmodules.map(m => m.name),
         });
     },
 };

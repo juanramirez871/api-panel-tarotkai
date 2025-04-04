@@ -6,6 +6,7 @@ import { User } from 'src/database/models/user.model';
 import { Module } from 'src/database/models/modules.model';
 import { Privilege } from 'src/database/models/privileges.model';
 import { privilegeRole } from 'src/database/models/privileges-roles.model';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class PermissionService {
@@ -138,5 +139,41 @@ export class PermissionService {
 
     if (existPrivilege) return true
     return false
+  }
+
+  async getAllModulesAvailable(userId: number): Promise<privilegeRole[] | null> {
+
+    const user = await this.userModel.findByPk(userId)
+    const modulesAvailable = await this.privilegeRoleModel.findAll({
+      attributes: [
+        [col("privilege.module.id"), "module_id"],
+        [col("privilege.module.name"), "name"],
+        [col("privilege.module.icon"), "icon"],
+      ],
+      where: {
+        role_id: user?.dataValues?.role_id
+      },
+      include: [
+        {
+          model: this.privilegeModel,
+          as: "privilege",
+          attributes: [],
+          where: {
+            name: {
+              [Op.like]: '%modulo%'
+            }
+          },
+          include: [
+            {
+              model: this.moduleModel,
+              as: "module",
+              attributes: []
+            }
+          ]
+        }
+      ]
+    })
+
+    return modulesAvailable
   }
 }

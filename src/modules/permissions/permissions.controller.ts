@@ -64,6 +64,18 @@ export class PermissionController {
     }
   }
 
+  @Get('/modules')
+  @UseGuards(JwtAuthGuard)
+  async getAllModulesAvailable(@Req() req: RequestWithUser) {
+    try {
+      const data = await this.permissionService.getAllModulesAvailable(req.user.id);
+      return ApiResponse.success('Consultado correctamente', data);
+    }
+    catch (error) {
+      return ApiResponse.error(error);
+    }
+  }
+
   @Put('/roles/:idRole/privilege/:idPrivilege')
   @UseGuards(JwtAuthGuard)
   @ValidatePrivilegesGuard([PrivilegesEnum.MODIFICAR_PRIVILEGIOS])
