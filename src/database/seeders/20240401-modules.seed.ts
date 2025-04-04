@@ -3,7 +3,7 @@ import { QueryInterface } from 'sequelize';
 const ModulesWithSubmodules = [
     { name: 'llamadas', icon: 'Phone', route: "calls" },
     { name: 'reservas', icon: 'MessageBox', route: "reservations" },
-    { name: 'clientes', icon: 'User', route: "" },
+    { name: 'clientes', icon: 'User', route: "customers" },
     { name: 'metas', icon: 'Star', route: "goals" },
     { name: 'reportes', icon: 'Document', route: "reports" },
     { name: 'metricas', icon: 'Histogram', route: "metrics" },

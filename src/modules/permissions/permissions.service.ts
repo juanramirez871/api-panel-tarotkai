@@ -149,6 +149,7 @@ export class PermissionService {
         [col("privilege.module.id"), "module_id"],
         [col("privilege.module.name"), "name"],
         [col("privilege.module.icon"), "icon"],
+        [col("privilege.module.route"), "route"],
       ],
       where: {
         role_id: user?.dataValues?.role_id
@@ -177,22 +178,52 @@ export class PermissionService {
     const grouped: any = []
 
     for (let item of modulesAvailable) {
-
       item = item.get({ plain: true })
-      const existing = grouped.find((g: any) => g.module_id === item.module_id)
 
-      if (existing) {
-        existing.submodules.push(item.privilege)
+      if (item.module_id) {
+        const existing = grouped.find((g: any) => g.module_id === item.module_id)
+
+        if (existing) {
+          existing.submodules.push(item.privilege)
+        } else {
+          grouped.push({
+            module_id: item.module_id,
+            name: item.name,
+            icon: item.icon,
+            route: item.route,
+            submodules: [item.privilege]
+          })
+        }
+
       } else {
         grouped.push({
-          module_id: item.module_id,
           name: item.name,
           icon: item.icon,
-          submodules: [item.privilege]
+          route: item.route,
+          privilege: item.privilege
         })
       }
     }
 
-    return grouped
+    let result: any = []
+    for (const el of grouped) {
+
+      if (el.submodules.length > 1) {
+
+        let submodules = await this.moduleModel.findAll({
+          where: {
+            id: {
+              [Op.in]: el.submodules.map((data, i) => el.module_id + i + 1)
+            }
+          }
+        })
+
+        el["submodules"] = submodules
+      }
+
+      result.push(el)
+    }
+
+    return result
   }
 }
