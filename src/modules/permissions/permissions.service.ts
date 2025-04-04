@@ -144,7 +144,7 @@ export class PermissionService {
   async getAllModulesAvailable(userId: number): Promise<privilegeRole[] | null> {
 
     const user = await this.userModel.findByPk(userId)
-    const modulesAvailable = await this.privilegeRoleModel.findAll({
+    const modulesAvailable: any = await this.privilegeRoleModel.findAll({
       attributes: [
         [col("privilege.module.id"), "module_id"],
         [col("privilege.module.name"), "name"],
@@ -157,7 +157,7 @@ export class PermissionService {
         {
           model: this.privilegeModel,
           as: "privilege",
-          attributes: [],
+          attributes: ["name", ["id", "idPrivilege"]],
           where: {
             name: {
               [Op.like]: '%modulo%'
@@ -174,6 +174,25 @@ export class PermissionService {
       ]
     })
 
-    return modulesAvailable
+    const grouped: any = []
+
+    for (let item of modulesAvailable) {
+
+      item = item.get({ plain: true })
+      const existing = grouped.find((g: any) => g.module_id === item.module_id)
+
+      if (existing) {
+        existing.submodules.push(item.privilege)
+      } else {
+        grouped.push({
+          module_id: item.module_id,
+          name: item.name,
+          icon: item.icon,
+          submodules: [item.privilege]
+        })
+      }
+    }
+
+    return grouped
   }
 }
