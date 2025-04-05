@@ -25,6 +25,19 @@ export class CustomerController {
         }
     }
 
+    @Get('/:idCustomer')
+    @UseGuards(JwtAuthGuard)
+    @ValidatePrivilegesGuard([PrivilegesEnum.VER_CLIENTES])
+    async getCustomer(@Req() req: RequestWithUser) {
+        try {
+            const data = await this.customerService.getCustomerById(req.params.idCustomer);
+            return ApiResponse.success('Consultado correctamente', data);
+        }
+        catch (error) {
+            return ApiResponse.error(error);
+        }
+    }
+
     @Post('/')
     @UseGuards(JwtAuthGuard)
     @UseGuards(new ValidationGuard(createOrEditCustomer))
