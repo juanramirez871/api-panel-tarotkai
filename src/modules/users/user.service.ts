@@ -15,7 +15,7 @@ export class UserService {
   async findByEmail(email: string): Promise<User | null> {
     return this.userModel.findOne(
       {
-        attributes: ["email", "name", "extension", "password", "id"],
+        attributes: ["email", "name", "extension", "password", "id", "typeWork"],
         where: { email, delete: 0 }
       });
   }
@@ -23,7 +23,7 @@ export class UserService {
   async findByExtent(extent: string): Promise<User | null> {
     return this.userModel.findOne(
       {
-        attributes: ["email", "name", "extension"],
+        attributes: ["email", "name", "extension", "typeWork"],
         where: { extension: extent, delete: 0 }
       });
   }
@@ -41,6 +41,7 @@ export class UserService {
         "name",
         "email",
         "extension",
+        "typeWork",
         ["created_at", "createdAt"]
       ],
       include: [
@@ -66,6 +67,7 @@ export class UserService {
         "name",
         "email",
         "extension",
+        "typeWork",
         ["created_at", "createdAt"]
       ],
       where: {
@@ -98,6 +100,7 @@ export class UserService {
       role_id: body.rolId,
       password: hashedPassword,
       extension: body.extent,
+      typeWork: body.typeWork,
       created_by: userId,
       updated_by: userId,
       delete: 0
@@ -133,6 +136,7 @@ export class UserService {
         role_id: body.rolId,
         password: body.password ?? user.password,
         extension: body.extent,
+        typeWork: body.typeWork,
         updated_by: userId
       },
       {
