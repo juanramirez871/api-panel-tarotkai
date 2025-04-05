@@ -13,11 +13,6 @@ export async function up(queryInterface: QueryInterface) {
       allowNull: false,
       unique: true
     },
-    calls: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: 0
-    },
     country: {
       type: DataTypes.STRING(50),
       allowNull: true,

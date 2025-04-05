@@ -52,6 +52,12 @@ export class User extends Model {
   })
   delete: boolean;
 
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+  })
+  active: boolean;
+
   @ForeignKey(() => Role)
   @Column({
     type: DataType.INTEGER.UNSIGNED,

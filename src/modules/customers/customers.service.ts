@@ -43,7 +43,6 @@ export class CustomerService {
 
         const newCustomer = await this.customerModel.create({
             name: body.name,
-            calls: 0,
             country: body.country,
             city: body.city,
             created_by: userId,

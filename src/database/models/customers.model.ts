@@ -23,13 +23,6 @@ export class Customer extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: true,
-    unique: false,
-  })
-  calls: number;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: true,
   })
   country: string;
 

@@ -13,6 +13,7 @@ import { TypeCall } from './database/models/type-calls.model';
 import { TypeCallModule } from './modules/typeCalls/type-call.module';
 import { Customer } from './database/models/customers.model';
 import { CustomerModule } from './modules/customers/customers.module';
+import { ScheduleUser } from './database/models/ScheduleUser';
 dotenv.config();
 
 @Module({
@@ -31,7 +32,8 @@ dotenv.config();
         Privilege,
         privilegeRole,
         TypeCall,
-        Customer
+        Customer,
+        ScheduleUser
       ],
       autoLoadModels: true,
       synchronize: true,
