@@ -34,6 +34,13 @@ export class User extends Model {
   extension: string;
 
   @Column({
+    type: DataType.TINYINT.UNSIGNED,
+    allowNull: true,
+    unique: false,
+  })
+  typeWork: number;
+
+  @Column({
     type: DataType.STRING,
     allowNull: false,
   })

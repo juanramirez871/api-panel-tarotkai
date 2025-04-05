@@ -21,6 +21,24 @@ export default {
                 created_by: 1,
                 updated_at: new Date()
             },
+            {
+                privilege_id: 27,
+                role_id: 1,
+                created_by: 1,
+                updated_at: new Date()
+            },
+            {
+                privilege_id: 28,
+                role_id: 1,
+                created_by: 1,
+                updated_at: new Date()
+            },
+            {
+                privilege_id: 29,
+                role_id: 1,
+                created_by: 1,
+                updated_at: new Date()
+            },
         ]);
     },
 

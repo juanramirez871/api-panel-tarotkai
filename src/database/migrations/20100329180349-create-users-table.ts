@@ -22,6 +22,13 @@ export async function up(queryInterface: QueryInterface) {
       allowNull: true,
       unique: true,
     },
+    typeWork: {
+      type: DataTypes.TINYINT.UNSIGNED,
+      allowNull: true,
+      unique: false,
+      defaultValue: 3,
+      comment: "1 = central, 2 = tarotista, 3 = otro"
+    },
     password: {
       type: DataTypes.STRING(100),
       allowNull: false,

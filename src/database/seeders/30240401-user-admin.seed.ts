@@ -9,6 +9,7 @@ export default {
                 extension: 100,
                 password: '$2a$12$Qc28DPNbLc/xdfezAx5MpOF6hf/RFx1BJ5o6puDJQXzOJSaFyoeoi',
                 role_id: 1,
+                typeWork: 3,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
