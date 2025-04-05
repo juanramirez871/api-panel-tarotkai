@@ -50,8 +50,47 @@ export class CustomerService {
             updated_by: userId,
             delete: 0
         })
-
-        console.log(newCustomer);
         return await this.getCustomerById(newCustomer.id)
+    }
+
+    async deleteCustomer(idCustomer: number): Promise<number> {
+
+        const existCustomer = await this.getCustomerById(idCustomer);
+        if (!existCustomer) throw new Error("Cliente no existe");
+
+        const [updatedRows] = await this.customerModel.update(
+            {
+                delete: 1,
+                name: existCustomer.dataValues.name + " (eliminado)",
+            },
+            {
+                where: { id: idCustomer },
+            }
+        );
+
+        return updatedRows;
+    }
+
+    async editCustomer(idCustomer: number, body: any, userId: number): Promise<Customer | null> {
+
+        const existCustomer = await this.getCustomerById(idCustomer);
+        if (!existCustomer) throw new Error("Cliente no existe");
+
+        const existName = await this.getCustomerByName(body.name)
+        if (body.name != existCustomer.dataValues.name) {
+            if (existName) throw new Error("El nombre del cliente ya esta en uso")
+        }
+
+        await this.customerModel.update(
+            {
+                ...body,
+                updatedBy: userId
+            },
+            {
+                where: { id: idCustomer },
+            }
+        );
+
+        return await this.getCustomerById(idCustomer);
     }
 }

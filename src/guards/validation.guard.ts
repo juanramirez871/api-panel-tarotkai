@@ -3,7 +3,7 @@ import { ZodSchema } from 'zod';
 
 @Injectable()
 export class ValidationGuard implements CanActivate {
-  constructor(private schema: ZodSchema<any>) {}
+  constructor(private schema: ZodSchema<any>) { }
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -37,7 +37,7 @@ export class ValidationGuard implements CanActivate {
         const errorMessage = firstError.message;
 
         throw new BadRequestException({
-          error: `El ${fieldName ? ' ' : ''}${errorMessage}`,
+          error: `${fieldName ? ' ' : ''}${errorMessage}`,
         });
       }
     }

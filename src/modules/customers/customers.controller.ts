@@ -38,4 +38,31 @@ export class CustomerController {
             return ApiResponse.error(error);
         }
     }
+
+    @Delete('/:idCustomer')
+    @UseGuards(JwtAuthGuard)
+    @ValidatePrivilegesGuard([PrivilegesEnum.ELIMINAR_CLIENTES])
+    async deleteCustomer(@Req() req: RequestWithUser) {
+        try {
+            const data = await this.customerService.deleteCustomer(req.params.idCustomer);
+            return ApiResponse.success('Eliminado correctamente', data);
+        }
+        catch (error) {
+            return ApiResponse.error(error);
+        }
+    }
+
+    @Put('/:idCustomer')
+    @UseGuards(JwtAuthGuard)
+    @UseGuards(new ValidationGuard(createOrEditCustomer))
+    @ValidatePrivilegesGuard([PrivilegesEnum.EDITAR_CLIENTES])
+    async editCustomer(@Req() req: RequestWithUser) {
+        try {
+            const data = await this.customerService.editCustomer(req.params.idCustomer, req.body, req.user.id);
+            return ApiResponse.success('Actualizado correctamente', data);
+        }
+        catch (error) {
+            return ApiResponse.error(error);
+        }
+    }
 }
